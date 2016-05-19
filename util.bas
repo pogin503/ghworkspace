@@ -11,8 +11,8 @@ Function Contains(str As String, arr As Variant) As Boolean
     Dim c
     For Each c In arr
         If InStr(c, str) > 0 Then
- 			Contains = True
- 			Exit Function
+            Contains = True
+            Exit Function
         End If
     Next c
     Contains = False
