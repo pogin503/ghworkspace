@@ -17,3 +17,13 @@ Function Contains(str As String, arr As Variant) As Boolean
     Next c
     Contains = False
 End Function
+
+Function ContainsAndMatch(str As String, arr As Variant) As Boolean
+    If Not IsArray(arr) Then Err.Raise 13
+    Dim ret: ret = Filter(arr, str, True)
+    If ((UBound(arr) - LBound(ret) + 1) > 0) Then
+        ContainsAndMatch = True
+    Else
+        ContainsAndMatch = False
+    End If
+End Function
