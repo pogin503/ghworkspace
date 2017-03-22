@@ -1,4 +1,30 @@
-### https://raw.github.com/github/gitignore/1489551937b44864d07b87891ab95af439634e02/Global/eclipse.gitignore
+### https://raw.github.com/github/gitignore/35c010258fc790ad769033e9ccfb1021178f2925/Java.gitignore
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+
+### https://raw.github.com/github/gitignore/35c010258fc790ad769033e9ccfb1021178f2925/Global/Eclipse.gitignore
 
 
 .metadata
