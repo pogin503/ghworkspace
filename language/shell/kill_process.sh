@@ -22,7 +22,7 @@ function kill_process_2(){
     echo "process count: $RET"
     echo "processes:"
     pgrep "$1"
-    
+
   else
     kill -9 "$1"
   fi
