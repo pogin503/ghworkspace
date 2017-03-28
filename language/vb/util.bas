@@ -18,6 +18,17 @@ Public Function WorksheetExists(wkbook as Workbook, SheetName As String) As Bool
     For Each ws In wkBook.WorkSheets
         If ws.Name = SheetName Then Goto escape
     Next
+    WooksheetExists = False
+    Exit Function
+escape:
+    WorksheetExists = True
+End Function
+
+Public Function WorkbookExists(wkbook As String) As Boolean
+    Dim w As Workbook
+    For Each w In Workbooks
+        If ws.Name = SheetName Then Goto escape
+    Next
     WookbookExists = False
     Exit Function
 escape:
