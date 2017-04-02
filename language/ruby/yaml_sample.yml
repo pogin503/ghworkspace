@@ -1,0 +1,15 @@
+---
+- id: 127
+  date: 2017-04-01 23:00
+  initels:
+  - author:
+      name: user1
+      github_url: https://github.com/user1
+      url: https://github.com/user1/my-dot-emacs
+      repo_name: my-dot-emacs
+  - author:
+      name: user2
+      github_url: https://github.com/user2
+      url: https://github.com/user2/.emacs.d
+      repo_name: ".emacs.d"
+
