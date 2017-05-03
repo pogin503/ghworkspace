@@ -1,10 +1,30 @@
+# Indicates that Windows PowerShell returns an exception if a variable is referenced before a value is assigned to the variable.
 Set-PSDebug -strict
 
 # enable debugger
+# 0 - Turn script tracing off
+# 1 - Trace script lines as they are executed
+# 2 - Trace script lines, variable assignments, function calls, and scripts.
 Set-PSDebug -trace 2
 
 # step
 Set-PSDebug -step
+
+ # Establishes and enforces coding rules in expressions, scripts, and script blocks.
+Set-StrictMode -Version 1.0
+Set-StrictMode -Version 2.0
+Set-StrictMode -Version 3.0
+Set-StrictMode -Version Latest
+
+# 規則の解除
+Set-StrictMode -Off
+
+# Restricted - 実行できるスクリプトはありません。Windows PowerShell は対話型モードでのみ使用できます。
+# AllSigned - 信頼できる発行元が署名したスクリプトのみを実行できます。
+# RemoteSigned - ダウンロードしたスクリプトは信頼できる発行元が署名した場合にのみ実行できます。
+# Unrestricted - 制限なし。すべての Windows PowerShell スクリプトを実行できます。
+Set-ExecutionPolicy RemoteSigned
+Get-ExecutionPolicy
 
 # コマンドレットでエラーがあった場合、処理を中断させる
 $ErrorActionPreference = "Stop"
@@ -26,6 +46,26 @@ $arr2 += 4
 $arr3 = 5,6,7
 $arr4 = $arr2 + $arr3
 $arr2 -contains 2
+
+# hash table
+$hash = @{hoge="HOGE"; fuga="FUGA"; piyo="PIYO"}
+echo $hash.GetType().Name #=> Hashtable
+echo ("hoge = " + hoge["hoge"])
+echo ("fuga = " + hoge.Item["fuga"])
+
+# hash table
+echo $hash.Keys
+echo $hash.Values
+foreach ($key in $hash.Keys) {
+    $key + ":" + $hash.[$key]
+}
+
+# Set
+# @see https://msdn.microsoft.com/en-us/library/bb359438.aspx
+$set = New-Object System.Collections.Generic.HashSet[int]
+
+# more
+# @see https://www.simple-talk.com/sysadmin/powershell/powershell-one-liners-collections-hashtables-arrays-and-strings/
 
 # regexp
 $result = "abc" -replace "c","d"
@@ -81,18 +121,6 @@ $ret = $true -and $false
 $ret = $true -or  $false
 $ret = $true -xor $false
 
-# hash table
-$hash = @{hoge="HOGE"; fuga="FUGA"; piyo="PIYO"}
-echo $hash.GetType().Name #=> Hashtable
-echo ("hoge = " + hoge["hoge"])
-echo ("fuga = " + hoge.Item["fuga"])
-
-# hash table
-echo $hash.Keys
-echo $hash.Values
-foreach ($key in $hash.Keys) {
-    $key + ":" + $hash.[$key]
-}
 # grep
 gc somefile.txt | where { $_ -match “expression”}
 
