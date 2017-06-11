@@ -153,3 +153,20 @@ New-Item -ItemType file newfile
 
 # @see http://qiita.com/opengl-8080/items/bb0f5e4f1c7ce045cc57
 # @see http://stackoverflow.com/questions/9682024/how-to-do-what-head-tail-more-less-sed-do-in-powershell
+
+# ============================
+# JSON ファイルパス
+$jsonFile = "C:¥Path¥to¥jsonfile.json"
+
+# ライブラリの参照を追加
+[System.Reflection.Assembly]::LoadWithPartialName ("System.Web.Extension") 
+
+# メソッド参照用のオブジェクトを定義
+$ser = New-Object System.Web.Script.Serialization.JavaScriptSerializer
+
+# オブジェクトにデシリアライズする
+$json = $ser.DeserializeObject((Get-Content $jsonFile -encoding utf8))
+
+# JSONデータの参照
+$json[‘Directory']
+# ============================

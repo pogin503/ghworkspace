@@ -13,6 +13,10 @@ done
 # separate fields with tab in awk
 docker images | awk -F'[[:space:]][[:space:]]+' 'BEGIN{OFS="\t"} {print $1,$2,$3,$4,$5}'
 
+# read json
+JSON=$(cat /home/user/jsonfile.json)
+echo $JSON | jq ".Directory"
+
 # check xbit OS
 if [[ $(uname -m) =~ x86_64 ]];then
 	  echo "x86_64"
