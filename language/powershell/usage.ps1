@@ -37,6 +37,18 @@ $env:Path
 # date +'%Y/%m/&d'
 mkdir ("{0:yyyyMMdd}" -f Get-Date)
 
+Get-Process | Where-Object {$_.handles -gt 500} | Select-Object -first 5
+
+$now = Get-Date -Format "yyyyMMdd_HHmmss"
+$now
+#=> 20170702_190530
+
+# @see http://powershell.web.fc2.com/Html/Index.html
+# @see https://gist.github.com/pogin503/d5cf1397db243b26b6cf
+
+# ========================================================================
+# data structure, library
+
 # array
 $arr1 = @()
 $arr2 = 1,2,3
@@ -70,7 +82,8 @@ $set = New-Object System.Collections.Generic.HashSet[int]
 # regexp
 $result = "abc" -replace "c","d"
 
-Get-Process | Where-Object {$_.handles -gt 500} | Select-Object -first 5
+# ========================================================================
+# Syntax
 
 # if
 <#
@@ -121,6 +134,9 @@ $ret = $true -and $false
 $ret = $true -or  $false
 $ret = $true -xor $false
 
+# ========================================================================
+# command
+
 # grep
 gc somefile.txt | where { $_ -match “expression”}
 
@@ -154,7 +170,7 @@ New-Item -ItemType file newfile
 # @see http://qiita.com/opengl-8080/items/bb0f5e4f1c7ce045cc57
 # @see http://stackoverflow.com/questions/9682024/how-to-do-what-head-tail-more-less-sed-do-in-powershell
 
-# ============================
+# ========================================================================
 # JSON ファイルパス
 $jsonFile = "C:¥Path¥to¥jsonfile.json"
 
@@ -169,4 +185,4 @@ $json = $ser.DeserializeObject((Get-Content $jsonFile -encoding utf8))
 
 # JSONデータの参照
 $json[‘Directory']
-# ============================
+
