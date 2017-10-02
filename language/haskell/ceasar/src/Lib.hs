@@ -9,24 +9,24 @@ import Data.Maybe (fromJust)
 import Text.Regex.PCRE
 
 ceasarEncode :: String -> Int -> String -> String -> String
-ceasarEncode str n charset allowedStrRx =
+ceasarEncode cipher seed charset allowedStrRx =
   map (\c -> if [c] =~ allowedStrRx
-             then encode c n
-             else c) str
+             then encode c seed
+             else c) cipher
   where
     encode :: Char -> Int -> Char
-    encode c n' =
-      charset !! (mod ((fromJust $ elemIndex c charset) + n') $ length charset)
+    encode c seed' =
+      charset !! (mod ((fromJust $ elemIndex c charset) + seed') $ length charset)
 
 ceasarDecode :: String -> Int -> String -> String -> String
-ceasarDecode str n charset allowedStrRx =
+ceasarDecode plain seed charset allowedStrRx =
   map (\c -> if [c] =~ allowedStrRx
-             then decode c n
-             else c) str
+             then decode c seed
+             else c) plain
   where
     decode :: Char -> Int ->  Char
-    decode c n' =
-      charset !! (mod ((fromJust $ elemIndex c charset) - n') $ length charset)
+    decode c seed' =
+      charset !! (mod ((fromJust $ elemIndex c charset) - seed') $ length charset)
 
 solve :: String -> [String]
 solve q = do
