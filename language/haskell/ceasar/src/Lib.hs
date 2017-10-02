@@ -28,10 +28,10 @@ ceasarDecode plain seed charset allowedStrRx =
     decode c seed' =
       charset !! (mod ((fromJust $ elemIndex c charset) - seed') $ length charset)
 
-solve :: String -> [String]
-solve q = do
+solve :: String -> String -> [String]
+solve q hint = do
   decodedList <- map (\n -> ceasarDecode q n charset allowedStrRx) [1..(length charset)]
-  filter (=~ "person") [decodedList]
+  filter (=~ hint) [decodedList]
   where
     charset :: String
     charset = "abcdefghijklmnopqrstuvwxyz .,-"
