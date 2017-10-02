@@ -1,15 +1,15 @@
 module Lib
     (solve
-    , ceasarDecode
-    , ceasarEncode
+    , caesarDecode
+    , caesarEncode
     ) where
 
 import Data.List (elemIndex)
 import Data.Maybe (fromJust)
 import Text.Regex.PCRE
 
-ceasarEncode :: String -> Int -> String -> String -> String
-ceasarEncode cipher seed charset allowedStrRx =
+caesarEncode :: String -> Int -> String -> String -> String
+caesarEncode cipher seed charset allowedStrRx =
   map (\c -> if [c] =~ allowedStrRx
              then encode c seed
              else c) cipher
@@ -18,8 +18,8 @@ ceasarEncode cipher seed charset allowedStrRx =
     encode c seed' =
       charset !! (mod ((fromJust $ elemIndex c charset) + seed') $ length charset)
 
-ceasarDecode :: String -> Int -> String -> String -> String
-ceasarDecode plain seed charset allowedStrRx =
+caesarDecode :: String -> Int -> String -> String -> String
+caesarDecode plain seed charset allowedStrRx =
   map (\c -> if [c] =~ allowedStrRx
              then decode c seed
              else c) plain
@@ -30,7 +30,7 @@ ceasarDecode plain seed charset allowedStrRx =
 
 solve :: String -> String -> [String]
 solve q hint = do
-  decodedList <- map (\n -> ceasarDecode q n charset allowedStrRx) [1..(length charset)]
+  decodedList <- map (\n -> caesarDecode q n charset allowedStrRx) [1..(length charset)]
   filter (=~ hint) [decodedList]
   where
     charset :: String
