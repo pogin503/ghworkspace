@@ -1,0 +1,8 @@
+flags: {}
+extra-package-dbs: []
+packages:
+- '.'
+extra-deps:
+- regex-posix-0.95.2
+- hspec-2.4.4
+resolver: lts-9.6

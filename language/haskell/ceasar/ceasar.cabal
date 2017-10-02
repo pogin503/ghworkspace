@@ -1,0 +1,44 @@
+name:                ceasar
+version:             0.1.0.0
+-- synopsis:
+-- description:
+-- homepage:            https://github.com/pogin503/ceasar#readme
+license:             BSD3
+license-file:        LICENSE
+author:              pogin
+maintainer:          pogin503@gmail.com
+copyright:           Copyright: (c) 2017 Ryo Ogino
+category:            Algorithm
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Lib
+  build-depends:       base >= 4.7 && < 5
+                     , regex-pcre
+                     , regex-base >= 0.93
+  default-language:    Haskell2010
+
+executable ceasar-exe
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , ceasar
+  default-language:    Haskell2010
+
+test-suite ceasar-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:       base
+                     , ceasar
+                     , hspec >= 2.4
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+-- source-repository head
+--   type:     git
+--   location: https://github.com/pogin503/ghworkspace/language/haskell/ceasar
