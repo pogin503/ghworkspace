@@ -7,10 +7,12 @@ echo hello world | wc
 
 # =====================================================
 # Variables
+
 echo My home directory is $HOME
-#=> My home directory is /home/tutorial
+#=> My home directory is /home/username
+cd ~/
 echo "My current directory is $PWD"
-#=>My current directory is /home/tutorial
+#=>My current directory is /home/username
 echo 'My current directory is $PWD'
 #=> My current directory is $PWD
 
@@ -30,6 +32,7 @@ set -x MyVariable SomeValue
 env | grep MyVariable
 # MyVariablem=SomeValue
 
+## Remove Variable
 set -e MyVariable
 env | grep MyVariable
 #=> (no output)
@@ -87,13 +90,51 @@ for x in (seq 5)
   touch file_$x.txt
 end
 
+# =====================================================
+# List
+
+count $PATH
+#=> 30
+
+echo $PATH
+#=> /usr/bin /bin /usr/sbin /sbin /usr/local/bin
+echo $PATH[1]
+#=> /usr/bin
+> echo $PATH[-1]
+#=> /usr/local/bin
+
+echo $PATH[1..2]
+#=> /usr/bin /bin
+echo $PATH[-1..2]
+#=> /usr/local/bin /sbin /usr/sbin /bin
+
+for val in $PATH
+  echo "entry: $val"
+end
+#=> entry: /usr/bin/
+#=> entry: /bin
+#=> entry: /usr/sbin
+#=> entry: /sbin
+#=> entry: /usr/local/bin
+
+set -l a 1 2 3
+set -l 1 a b c
+echo $a$1
+#=> 1a 2a 3a 1b 2b 3b 1c 2c 3c
+
+echo $a" banana"
+#=> 1 banana 2 banana 3 banana
+echo "$a banana"
+#=> 1 2 3 banana
 
 # =====================================================
 # Tips
 
-# Set Path
-set PATH /usr/local/bin /usr/sbin $PATH
+# Set environment path
+# --export -x (Export variable to subprocess)
+set -x PATH /usr/local/bin /usr/sbin $PATH
 
+# --universal -U (Share variable persistently across sessions)
 set -U fish_user_paths /usr/local/bin $fish_user_paths
 
 # Set prompt
@@ -104,10 +145,12 @@ function fish_prompt
   echo -n ' > '
 end
 
+# check file path
 if test -e ~/.foobar
   echo "file exists"
 end
 
+# check directory path
 if test -d ~/.hello
   echo "directory exists"
 end
@@ -115,7 +158,8 @@ end
 # set rbenv
 which rbenv > /dev/null 2>&1
 if [ $status = 0 ] # コマンドが存在すれば
-    status --is-interactive; and . (rbenv init -|psub)
+  # status --is-interactive; and . (rbenv init -|psub)
+  rbenv init - | source
 else
     echo "can't load rbenv."
 end
