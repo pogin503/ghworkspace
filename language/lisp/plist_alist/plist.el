@@ -55,7 +55,7 @@
 (ht-get olist1 :menu-bar)
 (ht-get olist1 :elscreen)
 olist1
-#s(hash-table size 65 test equal rehash-size 1.5 rehash-threshold 0.8 data (:scroll-bar nil :tool-bar nil :menu-bar t))
+;=> #s(hash-table size 65 test equal rehash-size 1.5 rehash-threshold 0.8 data (:scroll-bar nil :tool-bar nil :menu-bar t))
 
 
 (provide 'plist)

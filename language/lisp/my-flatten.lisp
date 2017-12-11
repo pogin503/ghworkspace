@@ -1,0 +1,6 @@
+(defun my-flatten (lst)
+  (cond ((atom lst) lst)
+        ((listp (car lst))
+         (append (my-flatten (car lst)) (my-flatten (cdr lst))))
+        (t (append (list (car lst)) (my-flatten (cdr lst))))
+        ))
