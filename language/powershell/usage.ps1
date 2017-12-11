@@ -105,7 +105,7 @@ while ($x -lt 5) {
 # foreach
 $items = 1..10
 foreach ($item in $items) {
-    write-host $item
+    write-output $item
 }
 
 # switch
@@ -136,6 +136,9 @@ $ret = $true -xor $false
 
 # ========================================================================
 # command
+
+# ls -1
+ls -Name
 
 # grep
 gc somefile.txt | where { $_ -match “expression”}
@@ -170,12 +173,52 @@ New-Item -ItemType file newfile
 # @see http://qiita.com/opengl-8080/items/bb0f5e4f1c7ce045cc57
 # @see http://stackoverflow.com/questions/9682024/how-to-do-what-head-tail-more-less-sed-do-in-powershell
 
+# basename "$0"
+$myInvocation.myCommand.Path
+
+# -z  test -z string	string の文字列長が 0 ならば真となる。
+"".length -eq "".length
+
+# -n	test -n string	string の文字列長が 0 より大ならば真となる。
+"1".length -gt "".length
+
+# -d	test -d file	file がディレクトリならば真となる。
+Test-Path ~/ -PathType Container
+
+# -f	test -f file	file が普通のファイルならば真となる。
+Test-Path ~/.zshrc -PathType Leaf
+
+# -s	test -s file	file が 0 より大きいサイズならば真となる。
+# -e	test -e file	file が存在するならば真となる。
+# -r	test -r file	file が読み取り可能ならば真となる。
+# -w	test -w file	file が書き込み可能ならば真となる。
+# -x	test -x file	file が実行可能ならば真となる。
+
+# is null or empty
+[string]::IsNullOrEmpty("")
+[string]::IsNullOrEmpty($null)
+
+# "${base%/}/${rel}"
+Join-Path "~/" ".zshrc"
+
+# readlink -f ${mydir}
+Split-Path -Leaf (Split-Path "~/.zshrc")
+
+# basename /foo/bar/baz
+Split-Path -Leaf .zshrc
+
+# realpath ~/.zshrc
+Resolve-Path ./.zshrc
+Resolve-Path "C:¥path¥of¥relative¥..¥..¥"
+
+$data = ls -r -i "*.ps1" | % { $_.Fullname } | % { notepad.exe $_ }
+
 # ========================================================================
 # JSON ファイルパス
 $jsonFile = "C:¥Path¥to¥jsonfile.json"
 
 # ライブラリの参照を追加
-[System.Reflection.Assembly]::LoadWithPartialName ("System.Web.Extension") 
+[System.Reflection.Assembly]::LoadWithPartialName ("System.Web.Extension")
 
 # メソッド参照用のオブジェクトを定義
 $ser = New-Object System.Web.Script.Serialization.JavaScriptSerializer
@@ -185,4 +228,3 @@ $json = $ser.DeserializeObject((Get-Content $jsonFile -encoding utf8))
 
 # JSONデータの参照
 $json[‘Directory']
-
