@@ -30,22 +30,33 @@ Get-ExecutionPolicy
 $ErrorActionPreference = "Stop"
 
 # print environment value
+# env
 dir env:*
+
+# print PATH
+# echo $PATH
 $env:Path
 
+# pretty printed path
+dir $env:Path | % { $_.Value -split ";" }
+
 # create current directory
-# date +'%Y/%m/&d'
-mkdir ("{0:yyyyMMdd}" -f Get-Date)
+# mkdir $(date +'%Y%m%d')
+mkdir ("{0:yyyyMMdd}" -f (Get-Date))
 
-Get-Process | Where-Object {$_.handles -gt 500} | Select-Object -first 5
-
+# $(date +'%Y%m%d')
 $now = Get-Date -Format "yyyyMMdd_HHmmss"
 $now
 #=> 20170702_190530
 
 # @see http://powershell.web.fc2.com/Html/Index.html
-# @see https://gist.github.com/pogin503/d5cf1397db243b26b6cf
 
+Get-Process | Where-Object {$_.handles -gt 500} | Select-Object -first 5
+
+Get-EventLog -logName Application -newest 15
+
+@(3,5,10,1,2,1,1,1,2,6,4,4) | Sort-Object | Get-Unique
+ 
 # ========================================================================
 # data structure, library
 
@@ -134,6 +145,19 @@ $ret = $true -and $false
 $ret = $true -or  $false
 $ret = $true -xor $false
 
+# scope
+# どのスコープからも読み書き可能
+$global:a = 1
+# 現在のスコープからのみ読み書き可能
+$private:a = 1
+# 現在のスクリプトからのみ読み書き可能
+$script:a = 1
+
+# etc
+
+# -ieq case insensitive
+# -ceq case sensitive
+
 # ========================================================================
 # command
 
@@ -214,7 +238,7 @@ Resolve-Path "C:¥path¥of¥relative¥..¥..¥"
 $data = ls -r -i "*.ps1" | % { $_.Fullname } | % { notepad.exe $_ }
 
 # ========================================================================
-# JSON ファイルパス
+# JSON file path
 $jsonFile = "C:¥Path¥to¥jsonfile.json"
 
 # ライブラリの参照を追加
