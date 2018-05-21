@@ -110,7 +110,8 @@ if (...) {
 # while
 $x = 0
 while ($x -lt 5) {
-    write-host $x++
+    $x += 1
+    Write-Output $x
 }
 
 # foreach
@@ -223,10 +224,10 @@ Test-Path ~/.zshrc -PathType Leaf
 [string]::IsNullOrEmpty($null)
 
 # "${base%/}/${rel}"
-Join-Path "~/" ".zshrc"
+Write-Output (Join-Path "~/" ".zshrc")
 
-# readlink -f ${mydir}
-Split-Path -Leaf (Split-Path "~/.zshrc")
+# dirname (readlink -f /Users/pogin/.bashrc)
+Write-Output (Split-Path -Parent "/Users/pogin/.bashrc")
 
 # basename /foo/bar/baz
 Split-Path -Leaf .zshrc
