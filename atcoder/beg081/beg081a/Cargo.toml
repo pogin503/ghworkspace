@@ -1,0 +1,6 @@
+[package]
+name = "beg081a"
+version = "0.1.0"
+authors = ["pogin503 <pogin503@gmail.com>"]
+
+[dependencies]
