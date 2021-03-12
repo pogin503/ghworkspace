@@ -26,7 +26,7 @@ if not test -d $language_name
         case Y y
             if not test -d $language_name
                 mkdir -p -v $language_name/template
-                echo "Done. Next, Please create template directory."
+                echo "Done. Next, Please create ./$language_name/template directory and template files."
                 exit
             else
                 echo "$language_name directory already exists."
