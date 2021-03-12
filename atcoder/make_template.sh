@@ -77,13 +77,13 @@ if string match -q "$language_name" "rust"
     end
 end
 
-if not test -d ./tesmplate
+if not test -d ./template
     echo "Please create template directory."
     popd
     exit
 end
 
-for x in $argv[2..-1]
+for x in $argv[3..-1]
     set dest "$contest_name$x"
     echo $dest
     cp -R ./template "$contest_name/$contest_name$x"
