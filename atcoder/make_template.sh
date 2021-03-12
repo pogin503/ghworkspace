@@ -3,6 +3,8 @@
 function usage
     cat "\
 usage:
+    ./make_template <language> <contest> <problem1> [<problem2> [...]]
+example:
     ./make_template rust abc123 a
     ./make_template rust abc123 a b c d e
 "
