@@ -1,6 +1,5 @@
 #!/usr/bin/env fish
 
-set args_count (count $argv)
 function usage
     cat "\
 usage:
@@ -9,6 +8,7 @@ usage:
 "
 end
 
+set args_count (count $argv)
 if test $args_count -lt 3
     usage
     exit
