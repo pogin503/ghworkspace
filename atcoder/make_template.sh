@@ -86,9 +86,10 @@ if not test -d ./template
 end
 
 for x in $argv[3..-1]
-    set dest "$contest_name$x"
+    set -l problem_name "$contest_name$x"
+    set -l dest "$contest_name/$problem_name"
     echo $dest
-    cp -R ./template "$contest_name/$contest_name$x"
+    cp -R ./template $dest
 end
 
 popd
