@@ -1,0 +1,5 @@
+(text-char-description ?\C-c)
+(text-char-description ?\M-m)
+(text-char-description ?\C-\M-m)
+(text-char-description (+ 128 ?m))
+(text-char-description (+ 128 ?\C-m))

@@ -1,0 +1,7 @@
+(source gnu)
+(source melpa)
+
+(package-file "hit-and-blow.el")
+
+(depends-on "s")
+(depends-on "dash")
