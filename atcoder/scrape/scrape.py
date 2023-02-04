@@ -2,30 +2,30 @@
 # coding: utf-8
 
 
-"""
-atcoderの問題のスクレイピング用スクリプト
-pipenv run start
-"""
-
+import argparse
 import sys
 import re
 import requests
-import copy
 from bs4 import BeautifulSoup
 import config
+from atcodertools.client.models.problem_content import remove_non_jp_characters
+
 
 LOGIN_URL = "https://atcoder.jp/login"
 
-url = "http://arc001.contest.atcoder.jp/tasks/arc001_1"
-
 def main():
+    """
+    atcoderの問題のスクレイピング用スクリプト
+    pipenv run python scrape.py https://atcoder.jp/contests/abc145/tasks/abc145_c
+    """
+
     # セッション開始
     session = requests.session()
 
     # csrf_token取得
-    r = session.get(LOGIN_URL)
-    s = BeautifulSoup(r.text, 'lxml')
-    csrf_token = s.find(attrs={'name': 'csrf_token'}).get('value')
+    resp = session.get(LOGIN_URL)
+    soup = BeautifulSoup(resp.text, 'lxml')
+    csrf_token = soup.find(attrs={'name': 'csrf_token'}).get('value')
 
     # パラメータセット
     login_info = {
@@ -39,17 +39,12 @@ def main():
     if result.status_code == 200:
         print("log in!")
     else:
-        print("failed...")
-        sys.exit("failed....")
+        print("login failed...", file=sys.stderr)
+        sys.exit(1)
 
-    req = requests.get("http://arc001.contest.atcoder.jp/tasks/arc001_1")
-    soup = BeautifulSoup(req.text, "html.parser")
+    args = parse_args()
     # /html/body/div[3]/div/div[1]/div[2]/div/h3[1]
     # /html/body/div[3]/div/div[1]/div[2]/div/section[1]
-    i = 1
-    arr = [];
-    pairs = [];
-    problem = soup.select('#task-statement')[0]
 
     # for tag in soup.select('#task-statement')[0]:
     #     print(tag)
@@ -61,34 +56,61 @@ def main():
     #         # pairs.append(copy.deepcopy(arr))
     #         arr = []
 
-    #     i += 1
-    # print(pairs)
-    #     prinjjjjt(tag)
-    # for tag in soup.select('#task-statement')[0].select("td"):
-    #     print(tag)
+    output_one_problem_for_scrapbox(args.url, session)
 
-    output_problem_for_scrapbox(get_problem_data(url))
-
-def get_problem_data(url):
-    req = requests.get(url)
-    soup = BeautifulSoup(req.text, "html.parser")
+def get_problem_data(url, session):
+    resp = session.get(url)
+    soup = BeautifulSoup(resp.text, "html.parser")
+    for elem in soup.findAll("span", {"class": "lang-en"}):
+        elem.extract()
     problem = soup.select('#task-statement')
-    hrs = problem[0].find_all("h3")
+    headers = problem[0].find_all("h3")
     secs = problem[0].find_all("section")
+    # task_statement = []
+    restriction_tags = []
+    input_tags = []
+    output_tags = []
+    input_format_tag = None
+    output_format_tag = None
+    for tag in secs:
+        h3tag = tag.find('h3')
+        if h3tag is None:
+            continue
+        # Some problems have strange characters in h3 tags which should be
+        # removed
+        section_title = remove_non_jp_characters(tag.find('h3').get_text())
+        # if section_title.startswith("問題文"):
+        #     task_statement = tag.select('h3 ~ p')
+        if section_title.startswith("制約"):
+            restriction_tags = tag.find("ul")
+        elif section_title.startswith("入力例"):
+            input_tags.append(tag.find('pre'))
+        elif section_title == "入力":
+            input_format_tag = tag
+        elif section_title.startswith("出力例"):
+            output_tags.append(tag.find('pre'))
+        elif section_title == "出力":
+            output_format_tag = tag
+
+    for sec in secs[3:]:
+        sec.find("h3").extract()
 
     data = {
-        "URL": req.url,
+        "URL": resp.url,
         "title": soup.title.text,
         "contest_name": soup.select(".contest-title")[0].text,
-        "contest_id": req.url.split("/")[4],
+        "contest_id": resp.url.split("/")[4],
         "problem_str": soup.title.text.split(" - ")[0],
         "problem_name": soup.title.text.split(" - ")[1],
+        "restriction": restriction_tags,
         "problem": secs[0],
-        "input": secs[1],
-        "output": secs[2],
-        "ios": [[hr.text, sec] for hr, sec in zip(hrs[3:], secs[3:])]
+        "input": input_format_tag,
+        "output": output_format_tag,
+        "ios": [[hr.text, sec] for hr, sec in zip(headers[4:], secs[4:])]
     }
+    # print(data)
     return data
+
 
 def replace_formula(data):
     for x in data.find_all(re.compile("var|code")):
@@ -96,30 +118,81 @@ def replace_formula(data):
         x.insert_after(" ]")
         x.decompose()
 
-def replace_newline(data):
-    return re.sub("\n$", "", re.sub("^\n", "", re.sub("(\r\n)+", "\n ", data.text)))
 
-def output_problem_for_scrapbox(data):
+def replace_newline(data):
+    # return re.sub("\n$", "", re.sub("^\n", "", re.sub("(\r\n)+", "\n", data.text)))
+    return re.sub("^\n", "", re.sub("(\r\n)+", "\n", data.text))
+
+
+def format_ios(data):
+    # return re.sub("\n$", "", re.sub("^\n", "", re.sub("(\r\n)+", "\n", data.text)))
+    # "code:memo\n" +
+    #  + "\n"
+    # 改行を1つ\nにする
+    # →先頭行に空白をつける
+    # for tag in data:
+    #     print("tag " + str(i + 1))
+    #     i = i + 1
+    # print("Name: " + str(tag.name or "") + " " + "Text: " + str(tag.text or ""))
+    # print(list(filter(lambda x: x != None or x.text != "\n", tag)))
+    # tag.text !
+    tags = list(filter(lambda x: x is not None and x.text != "\n",
+                       data))
+    # txt = " " + "\n ".join(re.sub("\n\n+", "\n", re.sub("(\r\n)+", "\n", data.text)).strip().split("\n"))
+
+    def func(_tag):
+        if _tag.name == "pre":
+            txt = "\n ".join(re.sub("\n\n+",
+                                    "\n",
+                                    re.sub("(\r\n)+", "\n", _tag.text))
+                             .strip()
+                             .split("\n"))
+            return "code:memo\n" + " " + txt
+
+        return _tag.text
+
+    txt = "\n".join([func(tag) for tag in tags])
+    return txt
+
+
+def output_one_problem_for_scrapbox(url, session):
+    data = get_problem_data(url, session)
     replace_formula(data["problem"])
+    replace_formula(data["restriction"])
     replace_formula(data["input"])
     replace_formula(data["output"])
 
     print(data["contest_id"].upper() + " " + data["title"])
     print("[* 問題文]")
     print(replace_newline(data["problem"]).strip())
+    print("[* 制約]")
+    print(replace_newline(data["restriction"]).strip())
     print("[* 入力]")
     print(replace_newline(data["input"]).strip())
     print("[* 出力]")
     print(replace_newline(data["output"]).strip())
+    print("\n")
     for item in data["ios"]:
         print("[* " + item[0] + "]")
         replace_formula(item[1])
         # print(item[1])
-        print("code:memo" + replace_newline(item[1]))
+        print(format_ios(item[1]) + "\n")
 
-    print("[" + data["URL"] + " " +  data["title"] + " - " + data["contest_name"] +"]")
+    problem_link = data["URL"] + " " + (data["title"] +
+                                        " - " +
+                                        data["contest_name"])
+    print("[" + problem_link + "]")
     print("\n\n\n")
-    print(" ".join(["#AtCoder", "#" + data["contest_id"]]))
+    tags = ["#AtCoder", "#" + data["contest_id"]]
+    print(" ".join(tags))
+
+
+def parse_args():
+    desc = 'AtCoderの問題をScrapboxに転記する用のスクレイピングスクリプト'
+    parser = argparse.ArgumentParser(description=desc)
+    parser.add_argument('url', help='AtCoderのURL')
+    return parser.parse_args()
+
 
 if __name__ == '__main__':
     main()

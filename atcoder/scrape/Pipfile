@@ -8,6 +8,8 @@ requests = "*"
 beautifulsoup4 = "*"
 lxml = "*"
 ipykernel = "*"
+pandas = "*"
+google-api-python-client = "*"
 
 [dev-packages]
 
