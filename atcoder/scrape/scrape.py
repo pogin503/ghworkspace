@@ -36,9 +36,7 @@ def main():
 
     result = session.post(LOGIN_URL, data=login_info)
     result.raise_for_status()
-    if result.status_code == 200:
-        print("log in!")
-    else:
+    if result.status_code != 200:
         print("login failed...", file=sys.stderr)
         sys.exit(1)
 
