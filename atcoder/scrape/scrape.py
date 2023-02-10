@@ -161,12 +161,20 @@ def output_one_problem_for_scrapbox(url, session):
     replace_formula(data["output"])
 
     print(data["contest_id"].upper() + " " + data["title"])
+    problem_link = data["URL"] + " " + (data["title"] +
+                                        " - " +
+                                        data["contest_name"])
+    print("[" + problem_link + "]")
+    print("\n")
     print("[* 問題文]")
     print(replace_newline(data["problem"]).strip())
+    print("\n")
     print("[* 制約]")
     print(replace_newline(data["restriction"]).strip())
+    print("\n")
     print("[* 入力]")
     print(replace_newline(data["input"]).strip())
+    print("\n")
     print("[* 出力]")
     print(replace_newline(data["output"]).strip())
     print("\n")
@@ -176,10 +184,6 @@ def output_one_problem_for_scrapbox(url, session):
         # print(item[1])
         print(format_ios(item[1]) + "\n")
 
-    problem_link = data["URL"] + " " + (data["title"] +
-                                        " - " +
-                                        data["contest_name"])
-    print("[" + problem_link + "]")
     print("\n\n\n")
     tags = ["#AtCoder", "#" + data["contest_id"]]
     print(" ".join(tags))
