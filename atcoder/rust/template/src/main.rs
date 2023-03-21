@@ -2,7 +2,7 @@
 // #![allow(unused_variables)]
 #![allow(dead_code)]
 use proconio::input;
-// use proconio::marker::*;
+use proconio::marker::*;
 use std::cmp::{min, max, Reverse};
 use std::collections::{HashSet, HashMap, BinaryHeap, VecDeque};
 
@@ -22,9 +22,9 @@ fn mod_pow(x: u64, y: u64)->u64{
 
 fn solve1() {
     input!{
-        n: i64
+        n: i64,
     }
-    let ans : i64 = n;
+    let ans = n;
     println!("{}", ans);
 
 }
