@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 import sys
+import itertools
 
-
-def i(): return int(sys.stdin.readline().rstrip())
-def li(): return list(map(int, sys.stdin.readline().rstrip().split()))
-def s(): return sys.stdin.readline().rstrip()
-def ls(): return list(sys.stdin.readline().rstrip().split())
+def i_in(): return int(sys.stdin.readline().rstrip())
+def li_in(): return list(map(int, sys.stdin.readline().rstrip().split()))
+def s_in(): return sys.stdin.readline().rstrip()
+def ls_in(): return list(sys.stdin.readline().rstrip().split())
 
 
 def solve1():
-    n = map(int, input().split())
+    n = i_in()
     # s = [ input() for i in range(N)]
 
 
