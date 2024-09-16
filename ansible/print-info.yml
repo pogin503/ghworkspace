@@ -1,0 +1,28 @@
+- name: システム情報を収集する
+  hosts: localhost
+  gather_facts: False
+  tasks:
+    # - name: システム情報を取得
+    #   ansible.builtin.setup:
+    #   
+    # - name: 情報を表示
+    #   ansible.builtin.debug:
+    #     msg: 
+    #       - "{{ lookup('template', 'server_info.j2') | split('\n') }}"
+    - name: システム情報を取得
+      ansible.builtin.setup:
+        filter:
+          - ansible_all_ipv4_addresses
+          - ansible_distribution
+          - ansible_distribution_version
+          - ansible_architecture
+          - ansible_processor
+          - ansible_processor_cores
+          - ansible_memtotal_mb
+          - ansible_memfree_mb
+          - ansible_mounts
+
+    - name: 情報を表示
+      ansible.builtin.debug:
+        var: ansible_facts
+

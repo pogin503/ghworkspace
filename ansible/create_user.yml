@@ -1,0 +1,31 @@
+---
+- name: create user 
+  hosts: localhost
+  become: yes
+  remote_user: root
+
+  tasks:
+    # - name: グループの作成
+    - name: create group
+      ansible.builtin.group:
+        name: "{{ item.name }}"
+        gid: "{{ item.gid }}"
+        state: present
+      loop:
+        - name: admins
+          gid: 3001
+        - name: developers
+          gid: 3002
+    - name: Add users with specified groups, default password, and default group
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        shell: /bin/bash
+        password: "{{ item.name | password_hash('sha512') }}"
+        group: staff
+        groups: "{{ item.groups }}"
+        append: yes
+        create_home: yes
+      loop:
+        - { name: 'james', groups: 'admins,developers,wheel' }
+        - { name: 'testuser2', groups: 'wheel' }
+

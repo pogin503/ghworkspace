@@ -1,0 +1,5 @@
+OSタイプ: {{ ansible_distribution }} {{ ansible_distribution_version }}
+CPU情報: {{ ansible_processor }} (コア数: {{ ansible_processor_cores }})
+メモリ: 合計 {{ ansible_memtotal_mb }} MB, 利用可能 {{ ansible_memfree_mb }} MB
+ディスク使用状況: {{ ansible_mounts }}
+アップタイム: {{ ansible_uptime_seconds }} 秒
