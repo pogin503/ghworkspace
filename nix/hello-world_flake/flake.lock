@@ -1,0 +1,23 @@
+{
+  "nodes": {
+    "root": {
+      "inputs": {
+        "sub_flake": "sub_flake"
+      }
+    },
+    "sub_flake": {
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-XbCcr3AvOZAwNk6ltA5VSBBvb1dzZ2yNwlSTuypiOSg=",
+        "path": "./sub",
+        "type": "path"
+      },
+      "original": {
+        "path": "./sub",
+        "type": "path"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
