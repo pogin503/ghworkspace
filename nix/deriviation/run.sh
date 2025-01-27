@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -x
+script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
+pushd "$script_dir"
 # git add .
 nix eval --file ./drv.nix
 cat /nix/store/ybkx07yfg2w33mr909bk2g7z0264sy4x-hello-txt.drv
