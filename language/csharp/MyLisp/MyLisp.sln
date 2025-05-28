@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197
+VisualStudioVersion = 17.13.35931.197 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Usage", "ConsoleApp1\Usage.csproj", "{46305F19-B304-44E8-918E-506DD1DF3E27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLisp", "MyLisp\MyLisp.csproj", "{937F2251-F6A5-4C28-994E-3EAFADE802BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{46305F19-B304-44E8-918E-506DD1DF3E27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46305F19-B304-44E8-918E-506DD1DF3E27}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46305F19-B304-44E8-918E-506DD1DF3E27}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46305F19-B304-44E8-918E-506DD1DF3E27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{937F2251-F6A5-4C28-994E-3EAFADE802BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{937F2251-F6A5-4C28-994E-3EAFADE802BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{937F2251-F6A5-4C28-994E-3EAFADE802BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{937F2251-F6A5-4C28-994E-3EAFADE802BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {82C5AA59-C12D-4D50-9D63-15E96A522D05}
+		SolutionGuid = {34350E19-6060-4B3A-A753-66C3F69DEDD4}
 	EndGlobalSection
 EndGlobal
