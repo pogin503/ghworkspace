@@ -1,0 +1,9 @@
+# libFuzzer でビルドされた fuzz ターゲットバイナリ
+fuzz_eth
+fuzz_arp
+fuzz_ip
+fuzz_icmp
+fuzz_tcp
+
+# シードコーパス生成バイナリ
+generate_seeds
