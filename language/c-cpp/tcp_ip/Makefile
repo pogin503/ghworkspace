@@ -28,7 +28,9 @@ LDFRAGS =
 LDLIBS =
 
 # src files & obj files
-SRC := $(foreach x, $(SRC_PATH), $(wildcard $(addprefix $(x)/*,.c)))
+# unity.c はテスト専用のため tcp_stack バイナリから除外する
+SRC := $(filter-out $(SRC_PATH)/unity.c, \
+         $(foreach x, $(SRC_PATH), $(wildcard $(addprefix $(x)/*,.c))))
 OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 OBJ_DEBUG := $(addprefix $(DBG_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
@@ -79,3 +81,9 @@ distclean:
 .PHONY: fuzz
 fuzz:
 	$(MAKE) -C fuzz
+
+# ユニットテスト (Unity, gcc)
+.PHONY: test
+test:
+	$(MAKE) -C test
+

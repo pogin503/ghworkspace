@@ -45,7 +45,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     if (size >= sizeof(struct icmp_hdr)) {
         struct icmp_hdr *hdr = (struct icmp_hdr *)buf;
         hdr->checksum = 0;
-        hdr->checksum = checksum(buf, size);
+        hdr->checksum = htons(checksum(buf, size));
     }
 
     icmp_recv(&g_dev, g_src_ip, buf, size);

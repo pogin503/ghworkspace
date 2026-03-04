@@ -137,7 +137,7 @@ int tcp_send_segment(struct netdev *dev, struct tcp_conn *conn,
 
     uint32_t csum = checksum_partial(&pseudo, sizeof(pseudo), 0);
     csum          = checksum_partial(seg, seg_len, csum);
-    hdr->checksum = checksum_finish(csum);
+    hdr->checksum = htons(checksum_finish(csum));
 
     /* SYN/FINフラグはシーケンス番号を1消費する */
     uint32_t consumed = (uint32_t)data_len;

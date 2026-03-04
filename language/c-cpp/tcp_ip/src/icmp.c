@@ -64,7 +64,7 @@ int icmp_send_echo_reply(struct netdev *dev, uint32_t dst_ip,
     }
 
     /* ICMPチェックサム: ヘッダ+データ全体を対象とする */
-    hdr->checksum = checksum(buf, total_len);
+    hdr->checksum = htons(checksum(buf, total_len));
 
     log_info("ICMP ECHO REPLY sent id=%u seq=%u", (unsigned)id, (unsigned)seq);
 

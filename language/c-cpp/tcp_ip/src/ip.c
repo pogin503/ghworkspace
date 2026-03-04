@@ -25,7 +25,7 @@ int ip_checksum_valid(const struct ip_hdr *hdr) {
 void ip_checksum_fill(struct ip_hdr *hdr) {
     size_t hdr_len = (size_t)(hdr->version_ihl & 0x0f) * 4;
     hdr->checksum = 0;
-    hdr->checksum = checksum(hdr, hdr_len);
+    hdr->checksum = htons(checksum(hdr, hdr_len));
 }
 
 /* 受信したIPv4パケットを解析してプロトコルにディスパッチする */

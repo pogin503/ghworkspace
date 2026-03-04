@@ -72,13 +72,13 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
         pseudo.protocol = IP_PROTO_TCP;
         pseudo.tcp_len  = htons((uint16_t)size);
 
+        /* 宛先ポートを必ずLISTENポートに設定: state machine に到達させる */
+        hdr->dst_port = htons(8080);
+
         hdr->checksum = 0;
         uint32_t csum = checksum_partial(&pseudo, sizeof(pseudo), 0);
         csum          = checksum_partial(buf, size, csum);
-        hdr->checksum = checksum_finish(csum);
-
-        /* 宛先ポートを必ずLISTENポートに設定: state machine に到達させる */
-        hdr->dst_port = htons(8080);
+        hdr->checksum = htons(checksum_finish(csum));
     }
 
     tcp_recv(&g_dev, g_src_ip, g_dst_ip, buf, size);
