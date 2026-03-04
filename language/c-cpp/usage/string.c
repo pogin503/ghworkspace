@@ -32,20 +32,19 @@ char * join_strings(const char **strings, size_t count) {
 
 int main() {
     char buf[256] = { '\0' };
-    // &bufではない
     printf("文字列の入力: ");
+    // &bufではない
     scanf("%s", buf);
     
     printf("文字列の出力: %s\n", buf);
     
     // 文字列定義(静的)
+    // サイズをピッタリで定義する場合 `文字列の長さ + 1`で配列を定義する
     // 変更しない文字列にはconstをつける
     const char hello[6] = "Hello";
     const char world[7] = "world!";
     
     printf("%s, %s\n", hello, world);
-    
-    // 文字列(動的配列)
     
     // 複数個の文字列(静的)
     const char abcde[][3] = { "ab", "cd", "ef" };
@@ -55,8 +54,11 @@ int main() {
         printf("%s\n", abcde[i]);
     }
     
+    // 文字列(動的配列)
+    
     // 2次元の配列(動的)
     int a[] = {1, 2, 3};
+    // 配列の長さの算出
     size_t a_size = sizeof(a) / sizeof(a[0]);
     char *strArray[a_size];
     for (size_t i = 0; i < a_size; i++) {
@@ -71,4 +73,11 @@ int main() {
         printf("[%s]\n", joinedString);
         free(joinedString);
     }
+    
+    // 文字列→数値
+    char str[1000];
+    char *e;
+    scanf("%s", str);
+    const int s1 = (int)strtol(str, &e, 10);
+    printf("%d", s1);
 }
