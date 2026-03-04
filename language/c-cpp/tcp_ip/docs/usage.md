@@ -31,20 +31,26 @@ make clean    # ビルド成果物を削除
 
 ### 1. ホスト側のTAPデバイスを設定する
 
-スタックを起動する前に、ホスト側でTAPインターフェースを作成してIPアドレスを割り当てます。
+スタックを起動する前に、`scripts/tap.sh` でTAPインターフェースを作成します。
+
+```bash
+sudo scripts/tap.sh up        # tap0 を作成して 10.0.0.1/24 を設定
+scripts/tap.sh status         # 現在の状態を確認
+sudo scripts/tap.sh down      # 後片付け (tap0 を削除)
+```
+
+別のデバイス名を使う場合はデバイス名を第2引数に渡します。
+
+```bash
+sudo scripts/tap.sh up tap1
+```
+
+手動で設定する場合は以下と同等です。
 
 ```bash
 sudo ip tuntap add dev tap0 mode tap
 sudo ip addr add 10.0.0.1/24 dev tap0
 sudo ip link set tap0 up
-```
-
-設定の確認:
-
-```bash
-ip addr show tap0
-# tap0: <BROADCAST,MULTICAST,UP,LOWER_UP> ...
-#   inet 10.0.0.1/24 ...
 ```
 
 ### 2. スタックを起動する
